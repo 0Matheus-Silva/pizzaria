@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Carrinho — {{ store.store_name if store else 'Bella Pizza' }}{% endblock %}
+{% block content %}
+<section class="page-intro"><span class="eyebrow">Só falta finalizar</span><h1>Seu carrinho</h1><p>Confira os sabores e personalizações do seu pedido.</p></section>
+<section class="section cart-layout">
+  {% if lines %}
+  <div class="cart-list">
+    {% for line in lines %}
+      <article class="cart-item"><div class="cart-product-mark" aria-hidden="true"></div><div class="cart-item-info"><h2>{{ line.product.name }}</h2><p>{{ line.size.name }} · {{ line.quantity }} unidade(s)</p>{% if line.addons %}<p>Adicionais: {{ line.addons|map(attribute='name')|join(', ') }}</p>{% endif %}{% if line.observation %}<p>Observação: {{ line.observation }}</p>{% endif %}<form class="inline-form" method="post" action="{{ url_for('shop.update_cart', index=loop.index0) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><label class="visually-hidden" for="qty-{{ loop.index }}">Quantidade</label><input id="qty-{{ loop.index }}" name="quantity" type="number" min="1" max="20" value="{{ line.quantity }}"><button class="text-link" type="submit">Atualizar</button></form></div><strong>{{ money(line.total) }}</strong><form method="post" action="{{ url_for('shop.remove_from_cart', index=loop.index0) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="remove-button" type="submit" aria-label="Remover {{ line.product.name }}">Remover</button></form></article>
+    {% endfor %}
+  </div>
+  <aside class="summary-card"><h2>Resumo</h2><div class="summary-row"><span>Produtos</span><span>{{ money(lines|sum(attribute='total')) }}</span></div><div class="summary-row"><span>Entrega</span><span>Calculada no checkout</span></div><div class="summary-total"><span>Total parcial</span><strong>{{ money(lines|sum(attribute='total')) }}</strong></div><a class="button button-full" href="{{ url_for('shop.checkout') }}">Continuar para entrega</a><a class="text-link centered" href="{{ url_for('main.menu') }}">Continuar comprando</a></aside>
+  {% else %}<div class="empty-state"><div class="empty-icon" aria-hidden="true"></div><h2>Seu carrinho está vazio</h2><p>Tem muita coisa gostosa esperando por você.</p><a class="button" href="{{ url_for('main.menu') }}">Ver cardápio</a></div>{% endif %}
+</section>
+{% endblock %}

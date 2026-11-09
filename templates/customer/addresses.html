@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Endereços — {{ store.store_name if store else 'Bella Pizza' }}{% endblock %}
+{% block content %}
+<section class="page-intro"><span class="eyebrow">Entrega sem complicação</span><h1>Meus endereços</h1></section>
+<section class="section address-layout"><div class="address-list">{% for address in addresses %}<article class="address-card"><strong>{{ address.label }}</strong><p>{{ address.street }}, {{ address.number }}{% if address.complement %} — {{ address.complement }}{% endif %}<br>{{ address.neighborhood }} · {{ address.city }}/{{ address.state }} · CEP {{ address.postal_code }}</p></article>{% else %}<p class="muted">Cadastre seu primeiro endereço.</p>{% endfor %}</div>
+<div class="form-card"><h2>Novo endereço</h2><form method="post">{{ form.hidden_tag() }}
+{% for field in [form.label, form.postal_code, form.street, form.number, form.complement, form.neighborhood, form.city, form.state, form.reference] %}<label for="{{ field.id }}">{{ field.label.text }}</label>{{ field() }}{% for e in field.errors %}<small class="field-error">{{ e }}</small>{% endfor %}{% endfor %}
+<button class="button" type="submit">Salvar endereço</button></form></div></section>
+{% endblock %}

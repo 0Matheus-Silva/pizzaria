@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}{{ product.name }} — {{ store.store_name if store else 'Bella Pizza' }}{% endblock %}
+{% block content %}
+<section class="section detail-layout">
+  <div class="detail-art"><span class="product-illustration"></span></div>
+  <div class="detail-copy">
+    <a class="text-link" href="{{ url_for('main.menu') }}">← Voltar ao cardápio</a>
+    <div class="product-category">{{ product.category.name }}</div><h1>{{ product.name }}</h1><p class="lead">{{ product.description }}</p>
+    {% if product.ingredients %}<p><strong>Ingredientes:</strong> {{ product.ingredients }}</p>{% endif %}
+    <form method="post" action="{{ url_for('shop.add_to_cart', product_id=product.id) }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <label for="size_id">Tamanho</label><select id="size_id" name="size_id" required>{% for size in sizes %}<option value="{{ size.id }}">{{ size.name }} · {{ size.slices }} fatias · {{ money(size.price) }}</option>{% endfor %}</select>
+      {% if product.addons %}<fieldset><legend>Adicionais</legend>{% for addon in product.addons if addon.is_available %}<label class="check-row"><input type="checkbox" name="addon_ids" value="{{ addon.id }}"> {{ addon.name }} <span>+ {{ money(addon.price) }}</span></label>{% endfor %}</fieldset>{% endif %}
+      <label for="quantity">Quantidade</label><input id="quantity" name="quantity" type="number" min="1" max="20" value="1" required>
+      <label for="observation">Observações (opcional)</label><textarea id="observation" name="observation" maxlength="250" rows="3" placeholder="Alguma preferência?"></textarea>
+      <button class="button button-full" type="submit">Adicionar ao carrinho</button>
+    </form>
+  </div>
+</section>
+{% endblock %}

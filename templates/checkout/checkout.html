@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Finalizar pedido — {{ store.store_name if store else 'Bella Pizza' }}{% endblock %}
+{% block content %}
+<section class="page-intro"><span class="eyebrow">Etapa final</span><h1>Entrega e pagamento</h1><p>Os valores são sempre recalculados no servidor antes do registro do pedido.</p></section>
+<section class="section checkout-layout">
+  <div class="checkout-panel">
+    <form method="post">{{ form.hidden_tag() }}
+      <label for="{{ form.order_type.id }}">{{ form.order_type.label.text }}</label>{{ form.order_type() }}{% for e in form.order_type.errors %}<small class="field-error">{{ e }}</small>{% endfor %}
+      <div id="address-container"><label for="{{ form.address_id.id }}">{{ form.address_id.label.text }}</label>{{ form.address_id() }}</div>
+      <p class="muted">Atendemos os bairros: {{ zones|map(attribute='neighborhood')|join(', ') if zones else 'Nenhuma região cadastrada' }}.</p>
+      <a href="{{ url_for('customer.addresses') }}">Cadastrar outro endereço</a>
+      <label for="{{ form.payment_method.id }}">{{ form.payment_method.label.text }}</label>{{ form.payment_method() }}{% for e in form.payment_method.errors %}<small class="field-error">{{ e }}</small>{% endfor %}
+      <div id="change-field"><label for="{{ form.change_for.id }}">{{ form.change_for.label.text }}</label>{{ form.change_for(step="0.01", min="0", placeholder="Ex.: 100,00") }}</div>
+      <label for="{{ form.customer_note.id }}">{{ form.customer_note.label.text }}</label>{{ form.customer_note(maxlength="500", placeholder="Instruções para a entrega") }}
+      <button class="button button-full" type="submit">Revisar pedido</button>
+    </form>
+  </div>
+  <aside class="summary-card"><h2>Seu pedido</h2>
+    {% for line in lines %}<div class="summary-row"><span>{{ line.quantity }} × {{ line.product.name }} ({{ line.size.name }})</span><span>{{ money(line.total) }}</span></div>{% endfor %}
+    <div class="summary-total"><span>Subtotal dos itens</span><strong>{{ money(subtotal) }}</strong></div>
+    <p class="muted">Na próxima etapa você verá o valor exato da entrega e o total antes de confirmar. Os valores serão validados novamente.</p>
+    {% if settings and settings.accepts_pix and settings.pix_key %}<div class="pix-note"><strong>Pix manual</strong><p>{{ settings.pix_instructions }}</p><p>Chave configurada: {{ settings.pix_key }}</p><small>O pagamento só será confirmado após conferência da equipe.</small></div>{% endif %}
+  </aside>
+</section>
+{% endblock %}

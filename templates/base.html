@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Pizzas artesanais preparadas na hora. Escolha seus sabores e peça online.">
+  <title>{% block title %}{{ store.store_name if store else 'Bella Pizza' }}{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="{{ url_for('main.home') }}"><span class="brand-mark">B</span><span>{{ store.store_name if store else 'Bella Pizza' }}</span></a>
+    <nav aria-label="Navegação principal">
+      <a href="{{ url_for('main.home') }}">Início</a>
+      <a href="{{ url_for('main.menu') }}">Cardápio</a>
+      <a href="{{ url_for('main.about') }}">Nossa história</a>
+      <a href="{{ url_for('main.contact') }}">Contato</a>
+    </nav>
+    <div class="header-actions">
+      {% if current_user.is_authenticated %}
+        <a class="text-link" href="{{ url_for('customer.account') }}">Minha conta</a>
+        {% if current_user.role in ['admin', 'manager', 'attendant'] %}<a class="text-link" href="{{ url_for('admin.dashboard') }}">Painel</a>{% endif %}
+      {% else %}
+        <a class="text-link" href="{{ url_for('auth.login') }}">Entrar</a>
+      {% endif %}
+      <a class="button button-small" href="{{ url_for('shop.cart') }}">Carrinho <span class="cart-count">{{ cart_count }}</span></a>
+    </div>
+  </header>
+  <main>
+    <div class="flash-stack" role="status" aria-live="polite">
+      {% for category, message in get_flashed_messages(with_categories=true) %}
+        <div class="flash flash-{{ category }}">{{ message }}</div>
+      {% endfor %}
+    </div>
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="site-footer">
+    <div><a class="brand brand-footer" href="{{ url_for('main.home') }}"><span class="brand-mark">B</span><span>{{ store.store_name if store else 'Bella Pizza' }}</span></a><p>Pizza feita com cuidado, ingredientes selecionados e muito sabor.</p></div>
+    <div><strong>Fale com a gente</strong><p>{{ store.phone if store and store.phone else 'Telefone a configurar' }}</p><p>{{ store.address if store and store.address else 'Endereço a configurar' }}</p></div>
+    <div><strong>Horários</strong><p>{{ store.opening_hours if store else 'Consulte nossos horários' }}</p><a href="{{ url_for('main.privacy') }}">Privacidade</a> · <a href="{{ url_for('main.terms') }}">Termos</a></div>
+  </footer>
+  <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+</body>
+</html>

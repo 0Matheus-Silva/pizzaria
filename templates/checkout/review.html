@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Revisar pedido — {{ store.store_name if store else 'Bella Pizza' }}{% endblock %}
+{% block content %}
+<section class="page-intro"><span class="eyebrow">Confira antes de enviar</span><h1>Revisar pedido</h1><p>O pedido só será criado depois da sua confirmação.</p></section>
+<section class="section checkout-layout">
+  <div class="checkout-panel">
+    <h2>Itens</h2>
+    {% for line in quote.lines %}
+      <div class="summary-row"><span>{{ line.quantity }} × {{ line.product.name }} — {{ line.size.name }}{% if line.addons %}<small class="block">Adicionais: {{ line.addons|map(attribute='name')|join(', ') }}</small>{% endif %}{% if line.observation %}<small class="block">Observação: {{ line.observation }}</small>{% endif %}</span><strong>{{ money(line.total) }}</strong></div>
+    {% endfor %}
+    <h2 class="review-subheading">Entrega e pagamento</h2>
+    <p><strong>Modalidade:</strong> {{ 'Entrega' if order_type == 'delivery' else 'Retirada no estabelecimento' }}</p>
+    {% if address %}<p><strong>Endereço:</strong><br>{{ address }}</p>{% endif %}
+    <p><strong>Pagamento:</strong> {{ {'pix':'Pix manual','cash':'Dinheiro na entrega','card':'Cartão na entrega'}.get(payment_method) }}</p>
+    {% if change_for %}<p><strong>Troco para:</strong> {{ money(change_for) }}</p>{% endif %}
+    {% if customer_note %}<p><strong>Observações:</strong> {{ customer_note }}</p>{% endif %}
+    {% if payment_method == 'pix' and settings and settings.pix_key %}<div class="pix-note"><strong>Instruções para pagamento</strong><p>{{ settings.pix_instructions }}</p><p>Chave Pix: {{ settings.pix_key }}</p><small>O pagamento ficará pendente até a conferência manual.</small></div>{% endif %}
+  </div>
+  <aside class="summary-card"><h2>Resumo de valores</h2>
+    <div class="summary-row"><span>Subtotal</span><span>{{ money(quote.subtotal) }}</span></div>
+    <div class="summary-row"><span>Desconto</span><span>− {{ money(quote.discount) }}</span></div>
+    <div class="summary-row"><span>Taxa de entrega</span><span>{{ money(quote.delivery_fee) }}</span></div>
+    <div class="summary-total"><span>Total</span><strong>{{ money(quote.total) }}</strong></div>
+    <form method="post">{{ form.hidden_tag() }}<label class="check-row confirm-row">{{ form.confirm }} {{ form.confirm.label.text }}</label>{% for error in form.confirm.errors %}<small class="field-error">{{ error }}</small>{% endfor %}<button class="button button-full" type="submit">Confirmar pedido</button></form>
+    <a class="text-link centered" href="{{ url_for('shop.checkout') }}">Voltar e editar</a>
+  </aside>
+</section>
+{% endblock %}
