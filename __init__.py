@@ -12,9 +12,11 @@ from app.extensions import csrf, db, login_manager, migrate
 
 
 def create_app(test_config: dict | None = None) -> Flask:
-    load_dotenv()
+    if os.getenv("APP_ENV") != "production":
+        load_dotenv()
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_object("config.Config")
+    app.config["APP_ENV"] = os.getenv("APP_ENV", "development")
     if test_config:
         app.config.update(test_config)
     if os.getenv("APP_ENV") == "production":
