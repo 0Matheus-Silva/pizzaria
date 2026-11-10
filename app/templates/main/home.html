@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}{{ store.store_name if store else 'Bella Pizza' }} — pizza feita com carinho{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="hero-copy">
+    <span class="eyebrow">Uma boa noite começa com pizza</span>
+    <h1>Feita na hora.<br><em>Feita para você.</em></h1>
+    <p>Massa leve, ingredientes selecionados e aquele sabor que reúne todo mundo à mesa.</p>
+    <a class="button" href="{{ url_for('main.menu') }}">Peça agora <span aria-hidden="true">→</span></a>
+  </div>
+  <div class="hero-art" role="img" aria-label="Ilustração de uma pizza artesanal"><div class="pizza-illustration"><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="hero-stamp">ASSADA<br>NA HORA</div></div>
+</section>
+<section class="section">
+  <div class="section-heading"><div><span class="eyebrow">Escolhas da casa</span><h2>As favoritas de vocês</h2></div><a class="text-link" href="{{ url_for('main.menu') }}">Ver cardápio completo →</a></div>
+  <div class="product-grid">
+    {% for product in products %}
+      <article class="product-card">
+        <a class="product-art" href="{{ url_for('main.product_detail', product_id=product.id) }}"><span class="product-illustration"></span></a>
+        <div class="product-card-body"><div class="product-category">{{ product.category.name }}</div><h3><a href="{{ url_for('main.product_detail', product_id=product.id) }}">{{ product.name }}</a></h3><p>{{ product.description|truncate(105) }}</p>
+          <div class="product-bottom"><span>A partir de {{ money(product.sizes|map(attribute='price')|min) if product.sizes else 'Consulte' }}</span><a class="button button-small" href="{{ url_for('main.product_detail', product_id=product.id) }}">Escolher</a></div>
+        </div>
+      </article>
+    {% else %}
+      <div class="empty-state"><h3>Nosso cardápio está sendo preparado</h3><p>Volte em breve para conhecer os sabores da casa.</p></div>
+    {% endfor %}
+  </div>
+</section>
+<section class="category-strip section">
+  <div class="section-heading"><div><span class="eyebrow">Para cada vontade</span><h2>Explore o cardápio</h2></div></div>
+  <div class="category-grid">{% for category in categories %}<a class="category-tile" href="{{ url_for('main.menu', categoria=category.id) }}"><span aria-hidden="true"></span><strong>{{ category.name }}</strong><small>Ver opções →</small></a>{% endfor %}</div>
+</section>
+<section class="promise-band"><div><span class="eyebrow">Nosso jeito de fazer</span><h2>Tradição no preparo.<br>Carinho em cada detalhe.</h2></div><div class="promise-list"><p><strong>01</strong> Ingredientes escolhidos com cuidado</p><p><strong>02</strong> Massa aberta e assada na hora</p><p><strong>03</strong> Pedido preparado especialmente para você</p></div></section>
+<section class="cta section"><span class="eyebrow">Sua próxima favorita está aqui</span><h2>Vamos pedir uma pizza?</h2><a class="button" href="{{ url_for('main.menu') }}">Escolher no cardápio</a><p class="muted">{{ store.opening_hours if store else 'Confira nossos horários de atendimento.' }}</p></section>
+{% endblock %}

@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Contato — {{ store.store_name if store else 'Bella Pizza' }}{% endblock %}
+{% block content %}
+<section class="page-intro"><span class="eyebrow">Estamos por aqui</span><h1>Fale com a gente</h1><p>Dúvidas, sugestões ou um elogio? Escreva para nossa equipe.</p></section>
+<section class="section contact-layout"><div class="contact-info"><h2>Informações da loja</h2><p><strong>Telefone</strong><br>{{ store.phone if store and store.phone else 'Telefone a configurar' }}</p><p><strong>WhatsApp</strong><br>{{ store.whatsapp if store and store.whatsapp else 'WhatsApp a configurar' }}</p><p><strong>Endereço</strong><br>{{ store.address if store and store.address else 'Endereço a configurar' }}</p><p><strong>Horário</strong><br>{{ store.opening_hours if store else 'Consulte nossos horários' }}</p></div><div class="form-card"><form method="post">{{ form.hidden_tag() }}{% for field in [form.name, form.email, form.message] %}<label for="{{ field.id }}">{{ field.label.text }}</label>{{ field(rows=5) }}{% for e in field.errors %}<small class="field-error">{{ e }}</small>{% endfor %}{% endfor %}<button class="button" type="submit">Enviar mensagem</button></form></div></section>
+{% endblock %}

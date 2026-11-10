@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Produtos — Painel Bella Pizza{% endblock %}
+{% block content %}
+<section class="page-intro admin-intro"><span class="eyebrow">Catálogo</span><h1>Produtos</h1><div class="admin-nav"><a href="{{ url_for('admin.dashboard') }}">← Painel</a><a href="{{ url_for('admin.products') }}">Produtos</a></div></section>
+<section class="section admin-content-grid"><div class="form-card"><h2>Novo produto</h2><form method="post">{{ form.hidden_tag() }}
+{% for field in [form.name, form.description, form.ingredients, form.category_id, form.size_name, form.price, form.image_url] %}<label for="{{ field.id }}">{{ field.label.text }}</label>{{ field() }}{% for e in field.errors %}<small class="field-error">{{ e }}</small>{% endfor %}{% endfor %}
+<label class="check-row">{{ form.is_available }} Disponível para pedidos</label><label class="check-row">{{ form.is_featured }} Destaque na página inicial</label><button class="button" type="submit">Cadastrar produto</button></form></div>
+<div><h2>Produtos cadastrados</h2><div class="table-wrap"><table><thead><tr><th>Produto</th><th>Categoria</th><th>Preço inicial</th><th>Estado</th><th>Ação</th></tr></thead><tbody>{% for product in products %}<tr><td>{{ product.name }}</td><td>{{ product.category.name }}</td><td>{{ money(product.sizes|map(attribute='price')|min) if product.sizes else '—' }}</td><td>{{ 'Ativo' if product.is_active else 'Inativo' }}</td><td><form method="post" action="{{ url_for('admin.toggle_product', product_id=product.id) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="text-link" type="submit">{{ 'Desativar' if product.is_active else 'Ativar' }}</button></form></td></tr>{% else %}<tr><td colspan="5">Nenhum produto cadastrado.</td></tr>{% endfor %}</tbody></table></div></div></section>
+{% endblock %}
