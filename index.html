@@ -27,9 +27,13 @@
       <span aria-hidden="true">Sacola</span>
       <span class="cart-count" id="cart-count">0</span>
     </button>
+    <button class="track-order-button" id="open-order" type="button" hidden>Meu pedido</button>
   </header>
 
   <main>
+    <div class="simulation-banner" role="note">
+      <strong>Simulação de teste:</strong> site em preparação. Pedidos, entregas e pagamentos ainda não são reais.
+    </div>
     <section class="hero">
       <div class="hero-copy">
         <span class="eyebrow"><span class="eyebrow-dot"></span> A felicidade vem em fatias</span>
@@ -108,10 +112,51 @@
     </div>
     <div class="cart-footer" id="cart-footer" hidden>
       <div class="cart-total"><span>Total dos itens</span><strong id="cart-total">R$ 0,00</strong></div>
-      <p class="order-note">O pedido ainda não é enviado à loja. Copie o resumo para combinar a entrega diretamente com a pizzaria.</p>
-      <button class="primary-button checkout-button" id="copy-order" type="button">Copiar pedido <span aria-hidden="true">↗</span></button>
-      <p class="copy-feedback" id="copy-feedback" role="status" aria-live="polite"></p>
+      <p class="order-note">Pagamento somente em dinheiro na entrega. Informe seu nome e endereço para continuar.</p>
+      <button class="primary-button checkout-button" id="continue-checkout" type="button">Continuar pedido <span aria-hidden="true">→</span></button>
     </div>
+    <section class="checkout-view" id="checkout-view" hidden aria-labelledby="checkout-title">
+      <button class="text-link back-to-cart" id="back-to-cart" type="button">← Voltar à sacola</button>
+      <span class="eyebrow">Só mais um minutinho</span>
+      <h2 id="checkout-title">Dados para entrega</h2>
+      <p class="checkout-intro">Preencha seus dados para registrar este pedido de teste.</p>
+      <form id="checkout-form">
+        <div class="name-fields">
+          <label>Nome
+            <input id="customer-first-name" name="firstName" autocomplete="given-name" required maxlength="60">
+          </label>
+          <label>Sobrenome
+            <input id="customer-last-name" name="lastName" autocomplete="family-name" required maxlength="80">
+          </label>
+        </div>
+        <label>Endereço de entrega
+          <textarea id="delivery-address" name="address" autocomplete="street-address" rows="3" required minlength="10" maxlength="250">Avenida Vida Nova, 166 - Jardim Maria Rosa, Taboão da Serra - SP, CEP 06764-045</textarea>
+        </label>
+        <div class="payment-choice">
+          <span class="field-label">Forma de pagamento</span>
+          <strong>Dinheiro na entrega</strong>
+          <small>Única forma de pagamento disponível nesta simulação.</small>
+        </div>
+        <p class="form-error" id="checkout-error" role="alert" hidden></p>
+        <button class="primary-button checkout-button" type="submit">Solicitar pedido de teste <span aria-hidden="true">↗</span></button>
+        <p class="form-disclaimer">Este pedido fica salvo somente neste navegador. Não será enviado à loja nem haverá cobrança ou entrega real.</p>
+      </form>
+    </section>
+    <section class="order-view" id="order-view" hidden aria-labelledby="order-view-title">
+      <span class="eyebrow">Acompanhe por aqui</span>
+      <h2 id="order-view-title">Pedido registrado</h2>
+      <div class="order-status-card">
+        <span class="status-pulse" aria-hidden="true"></span>
+        <div>
+          <strong id="order-status">Aguardando aceitação da loja</strong>
+          <span id="order-number"></span>
+        </div>
+      </div>
+      <div class="delivery-estimate"><span aria-hidden="true">◷</span><div><strong>Previsão: 30 a 40 minutos</strong><small>Estimativa simulada, após a aceitação do pedido.</small></div></div>
+      <div class="order-details" id="order-details"></div>
+      <p class="form-disclaimer">Simulação de teste: este pedido não foi realmente enviado à loja e não será preparado, entregue ou cobrado.</p>
+      <button class="primary-button checkout-button" id="finish-order" type="button">Voltar ao cardápio</button>
+    </section>
   </aside>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 </body>

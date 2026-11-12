@@ -12,13 +12,34 @@
   const cartCount = document.querySelector("#cart-count");
   const cartTotal = document.querySelector("#cart-total");
   const toast = document.querySelector("#toast");
-  const copyFeedback = document.querySelector("#copy-feedback");
+  const checkoutView = document.querySelector("#checkout-view");
+  const checkoutForm = document.querySelector("#checkout-form");
+  const checkoutError = document.querySelector("#checkout-error");
+  const orderView = document.querySelector("#order-view");
+  const openOrderButton = document.querySelector("#open-order");
   const storageKey = "bella-pizza-cart";
+  const ordersStorageKey = "bella-pizza-orders";
   const currency = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" });
 
   let selectedCategory = "Todos";
   let cart = loadCart();
+  let orders = loadOrders();
   let toastTimer;
+  let cartReturnTarget = null;
+
+  function loadOrders() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(ordersStorageKey) || "[]");
+      if (!Array.isArray(saved)) return [];
+      return saved.filter((order) =>
+        order && typeof order.id === "string" && Array.isArray(order.items)
+        && typeof order.customerName === "string" && typeof order.address === "string"
+      );
+    } catch (error) {
+      console.error("Não foi possível carregar os pedidos salvos.", error);
+      return [];
+    }
+  }
 
   function loadCart() {
     try {
@@ -133,6 +154,43 @@
     cartFooter.hidden = cart.length === 0;
   }
 
+  function renderOrder(order) {
+    document.querySelector("#order-number").textContent =
+      `Pedido ${order.id} · ${new Date(order.createdAt).toLocaleString("pt-BR")}`;
+    document.querySelector("#order-status").textContent = order.status;
+    document.querySelector("#order-details").innerHTML = `
+      <p class="order-customer">${escapeHtml(order.customerName)}</p>
+      <p class="order-address">${escapeHtml(order.address)}</p>
+      <p class="order-payment">Pagamento: ${escapeHtml(order.payment)}</p>
+      ${order.items.map((item) => `
+        <div class="order-line">
+          <span>${item.quantity}x ${escapeHtml(item.name)}</span>
+          <strong>${currency.format(item.price * item.quantity)}</strong>
+        </div>
+      `).join("")}
+      <div class="order-line order-grand-total"><span>Total dos itens</span><strong>${currency.format(order.total)}</strong></div>
+    `;
+    openOrderButton.hidden = false;
+  }
+
+  function showCartContents() {
+    cartItemsElement.hidden = false;
+    cartEmpty.hidden = cart.length > 0;
+    cartFooter.hidden = cart.length === 0;
+    checkoutView.hidden = true;
+    orderView.hidden = true;
+  }
+
+  function showCheckout() {
+    cartItemsElement.hidden = true;
+    cartEmpty.hidden = true;
+    cartFooter.hidden = true;
+    checkoutView.hidden = false;
+    orderView.hidden = true;
+    checkoutError.hidden = true;
+    document.querySelector("#customer-first-name").focus();
+  }
+
   function showToast(message) {
     toast.textContent = message;
     toast.classList.add("visible");
@@ -140,7 +198,8 @@
     toastTimer = window.setTimeout(() => toast.classList.remove("visible"), 2500);
   }
 
-  function setCartOpen(open) {
+  function setCartOpen(open, trigger) {
+    if (open && trigger) cartReturnTarget = trigger;
     cartPanel.classList.toggle("open", open);
     cartPanel.setAttribute("aria-hidden", String(!open));
     cartPanel.inert = !open;
@@ -148,7 +207,10 @@
     cartBackdrop.hidden = !open;
     document.body.classList.toggle("cart-open", open);
     if (open) document.querySelector("#close-cart").focus();
-    else document.querySelector("#open-cart").focus();
+    else {
+      (cartReturnTarget || document.querySelector("#open-cart")).focus();
+      cartReturnTarget = null;
+    }
   }
 
   function addToCart(productId) {
@@ -169,18 +231,52 @@
     renderCart();
   }
 
-  function orderSummary() {
-    const lines = ["Pedido Bella Pizza", ""];
-    for (const item of cart) {
+  function createOrder(formData) {
+    const items = cart.map((item) => {
       const product = products.find((entry) => entry.id === item.id);
-      lines.push(`${item.quantity}x ${product.name} (${product.size}) — ${currency.format(product.price * item.quantity)}`);
+      return {
+        id: product.id,
+        name: product.name,
+        size: product.size,
+        price: product.price,
+        quantity: item.quantity
+      };
+    });
+    const firstName = String(formData.get("firstName")).trim();
+    const lastName = String(formData.get("lastName")).trim();
+    const order = {
+      id: `BP-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).slice(2, 6).toUpperCase()}`,
+      createdAt: new Date().toISOString(),
+      customerName: `${firstName} ${lastName}`,
+      address: String(formData.get("address")).trim(),
+      payment: "Dinheiro na entrega",
+      status: "Recebido pela loja · aguardando aceitação",
+      estimatedDelivery: "30 a 40 minutos",
+      items,
+      total: items.reduce((sum, item) => sum + item.price * item.quantity, 0)
+    };
+
+    try {
+      orders = [order, ...orders].slice(0, 20);
+      localStorage.setItem(ordersStorageKey, JSON.stringify(orders));
+    } catch (error) {
+      console.error("Não foi possível registrar o pedido de teste.", error);
+      orders = loadOrders();
+      checkoutError.textContent = "Não foi possível salvar o pedido neste navegador. Libere espaço e tente novamente.";
+      checkoutError.hidden = false;
+      return;
     }
-    const total = cart.reduce((sum, item) => {
-      const product = products.find((entry) => entry.id === item.id);
-      return sum + product.price * item.quantity;
-    }, 0);
-    lines.push("", `Total dos itens: ${currency.format(total)}`);
-    return lines.join("\n");
+
+    cart = [];
+    saveCart();
+    renderCart();
+    renderOrder(order);
+    cartItemsElement.hidden = true;
+    cartEmpty.hidden = true;
+    cartFooter.hidden = true;
+    checkoutView.hidden = true;
+    orderView.hidden = false;
+    setCartOpen(true, document.querySelector("#open-cart"));
   }
 
   categoryList.addEventListener("click", (event) => {
@@ -201,44 +297,62 @@
     if (button) updateQuantity(button.dataset.quantity, Number(button.dataset.change));
   });
 
-  document.querySelector("#open-cart").addEventListener("click", () => setCartOpen(true));
+  document.querySelector("#open-cart").addEventListener("click", (event) => {
+    showCartContents();
+    setCartOpen(true, event.currentTarget);
+  });
+  openOrderButton.addEventListener("click", (event) => {
+    const latestOrder = orders[0];
+    if (!latestOrder) {
+      openOrderButton.hidden = true;
+      return;
+    }
+    renderOrder(latestOrder);
+    cartItemsElement.hidden = true;
+    cartEmpty.hidden = true;
+    cartFooter.hidden = true;
+    checkoutView.hidden = true;
+    orderView.hidden = false;
+    setCartOpen(true, event.currentTarget);
+  });
   document.querySelector("#close-cart").addEventListener("click", () => setCartOpen(false));
-  document.querySelector("#keep-shopping").addEventListener("click", () => setCartOpen(false));
+  document.querySelector("#keep-shopping").addEventListener("click", (event) => setCartOpen(false, event.currentTarget));
   cartBackdrop.addEventListener("click", () => setCartOpen(false));
+  document.querySelector("#continue-checkout").addEventListener("click", showCheckout);
+  document.querySelector("#back-to-cart").addEventListener("click", showCartContents);
+  document.querySelector("#finish-order").addEventListener("click", () => {
+    showCartContents();
+    setCartOpen(false);
+  });
+  checkoutForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    if (!checkoutForm.reportValidity()) return;
+    if (cart.length === 0) {
+      checkoutError.textContent = "Sua sacola está vazia. Adicione pelo menos um produto antes de continuar.";
+      checkoutError.hidden = false;
+      return;
+    }
+    const formData = new FormData(checkoutForm);
+    const firstName = String(formData.get("firstName")).trim();
+    const lastName = String(formData.get("lastName")).trim();
+    const address = String(formData.get("address")).trim();
+    if (!firstName || !lastName || address.length < 10) {
+      checkoutError.textContent = "Informe nome, sobrenome e um endereço válido para continuar.";
+      checkoutError.hidden = false;
+      if (!firstName) document.querySelector("#customer-first-name").focus();
+      else if (!lastName) document.querySelector("#customer-last-name").focus();
+      else document.querySelector("#delivery-address").focus();
+      return;
+    }
+    createOrder(formData);
+  });
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && cartPanel.classList.contains("open")) setCartOpen(false);
-  });
-
-  document.querySelector("#copy-order").addEventListener("click", async () => {
-    copyFeedback.textContent = "";
-    try {
-      if (navigator.clipboard?.writeText) {
-        await navigator.clipboard.writeText(orderSummary());
-      } else {
-        const textArea = document.createElement("textarea");
-        textArea.value = orderSummary();
-        textArea.setAttribute("readonly", "");
-        textArea.style.position = "fixed";
-        textArea.style.opacity = "0";
-        document.body.append(textArea);
-        let copied;
-        try {
-          textArea.select();
-          copied = document.execCommand("copy");
-        } finally {
-          textArea.remove();
-        }
-        if (!copied) throw new Error("Clipboard copy command was rejected.");
-      }
-      copyFeedback.textContent = "Resumo copiado. Agora é só enviar à pizzaria!";
-    } catch (error) {
-      console.error("Não foi possível copiar o pedido.", error);
-      copyFeedback.textContent = "Não foi possível copiar. Tente novamente neste navegador.";
-    }
   });
 
   document.querySelector("#current-year").textContent = String(new Date().getFullYear());
   renderCategories();
   renderProducts();
   renderCart();
+  if (orders.length > 0) renderOrder(orders[0]);
 })();
