@@ -251,11 +251,11 @@ h1, h2 { font-family: "Playfair Display", Georgia, serif; }
 #checkout-form { gap: 15px; }
 #checkout-form label, .field-label { color: #544a42; font-size: 11px; font-weight: 700; gap: 7px; }
 .name-fields { display: grid; gap: 10px; grid-template-columns: 1fr 1fr; }
-#checkout-form input, #checkout-form textarea { background: white; border: 1px solid var(--line); border-radius: 4px; color: var(--ink); font-size: 12px; font-weight: 400; outline: 0; padding: 11px; resize: vertical; width: 100%; }
-#checkout-form input:focus, #checkout-form textarea:focus { border-color: var(--red); box-shadow: 0 0 0 2px rgba(173, 53, 39, .1); }
-.payment-choice { background: var(--cream); border-radius: 4px; display: flex; flex-direction: column; gap: 5px; padding: 13px; }
-.payment-choice .field-label { color: var(--muted); }
-.payment-choice strong { font-size: 13px; }
+#checkout-form input, #checkout-form textarea, #checkout-form select { background: white; border: 1px solid var(--line); border-radius: 4px; color: var(--ink); font-size: 12px; font-weight: 400; outline: 0; padding: 11px; resize: vertical; width: 100%; }
+#checkout-form input:focus, #checkout-form textarea:focus, #checkout-form select:focus { border-color: var(--red); box-shadow: 0 0 0 2px rgba(173, 53, 39, .1); }
+.payment-choice { background: var(--cream); border-radius: 4px; display: flex; flex-direction: column; gap: 7px; padding: 13px; }
+.payment-choice { color: #544a42; font-size: 11px; font-weight: 700; }
+.payment-choice select { font-weight: 400; }
 .payment-choice small { color: var(--muted); font-size: 10px; line-height: 1.5; }
 .form-error { background: #fff0ed; border-radius: 4px; color: var(--red-dark); font-size: 11px; line-height: 1.5; margin: 0; padding: 10px; }
 .form-disclaimer { color: var(--muted); font-size: 10px; line-height: 1.6; margin: 12px 0 0; }

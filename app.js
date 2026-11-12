@@ -20,6 +20,11 @@
   const storageKey = "bella-pizza-cart";
   const ordersStorageKey = "bella-pizza-orders";
   const currency = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" });
+  const paymentMethods = {
+    cash: "Dinheiro na entrega",
+    debit_card: "Cartão de débito na entrega",
+    credit_card: "Cartão de crédito na entrega"
+  };
 
   let selectedCategory = "Todos";
   let cart = loadCart();
@@ -249,7 +254,7 @@
       createdAt: new Date().toISOString(),
       customerName: `${firstName} ${lastName}`,
       address: String(formData.get("address")).trim(),
-      payment: "Dinheiro na entrega",
+      payment: paymentMethods[String(formData.get("paymentMethod"))],
       status: "Recebido pela loja · aguardando aceitação",
       estimatedDelivery: "30 a 40 minutos",
       items,
@@ -336,12 +341,19 @@
     const firstName = String(formData.get("firstName")).trim();
     const lastName = String(formData.get("lastName")).trim();
     const address = String(formData.get("address")).trim();
+    const paymentMethod = String(formData.get("paymentMethod"));
     if (!firstName || !lastName || address.length < 10) {
       checkoutError.textContent = "Informe nome, sobrenome e um endereço válido para continuar.";
       checkoutError.hidden = false;
       if (!firstName) document.querySelector("#customer-first-name").focus();
       else if (!lastName) document.querySelector("#customer-last-name").focus();
       else document.querySelector("#delivery-address").focus();
+      return;
+    }
+    if (!Object.hasOwn(paymentMethods, paymentMethod)) {
+      checkoutError.textContent = "Selecione uma forma de pagamento para continuar.";
+      checkoutError.hidden = false;
+      document.querySelector("#payment-method").focus();
       return;
     }
     createOrder(formData);

@@ -112,7 +112,7 @@
     </div>
     <div class="cart-footer" id="cart-footer" hidden>
       <div class="cart-total"><span>Total dos itens</span><strong id="cart-total">R$ 0,00</strong></div>
-      <p class="order-note">Pagamento somente em dinheiro na entrega. Informe seu nome e endereço para continuar.</p>
+      <p class="order-note">Pagamento na entrega: dinheiro, débito ou crédito. Informe seu nome e endereço para continuar.</p>
       <button class="primary-button checkout-button" id="continue-checkout" type="button">Continuar pedido <span aria-hidden="true">→</span></button>
     </div>
     <section class="checkout-view" id="checkout-view" hidden aria-labelledby="checkout-title">
@@ -132,11 +132,15 @@
         <label>Endereço de entrega
           <textarea id="delivery-address" name="address" autocomplete="street-address" rows="3" required minlength="10" maxlength="250">Avenida Vida Nova, 166 - Jardim Maria Rosa, Taboão da Serra - SP, CEP 06764-045</textarea>
         </label>
-        <div class="payment-choice">
-          <span class="field-label">Forma de pagamento</span>
-          <strong>Dinheiro na entrega</strong>
-          <small>Única forma de pagamento disponível nesta simulação.</small>
-        </div>
+        <label class="payment-choice" for="payment-method">Forma de pagamento
+          <select id="payment-method" name="paymentMethod" required>
+            <option value="" selected disabled>Selecione uma forma de pagamento</option>
+            <option value="cash">Dinheiro na entrega</option>
+            <option value="debit_card">Cartão de débito na entrega</option>
+            <option value="credit_card">Cartão de crédito na entrega</option>
+          </select>
+          <small>Escolha como pagaria na entrega. Nenhum pagamento real será processado.</small>
+        </label>
         <p class="form-error" id="checkout-error" role="alert" hidden></p>
         <button class="primary-button checkout-button" type="submit">Solicitar pedido de teste <span aria-hidden="true">↗</span></button>
         <p class="form-disclaimer">Este pedido fica salvo somente neste navegador. Não será enviado à loja nem haverá cobrança ou entrega real.</p>
