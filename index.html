@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fffaf4">
+  <meta name="description" content="Pizzas artesanais, bebidas geladas e sabores para compartilhar.">
+  <title>Bella Pizza — feito para compartilhar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="products.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#" aria-label="Bella Pizza, início">
+      <span class="brand-mark" aria-hidden="true">B</span>
+      <span>Bella <em>Pizza</em><small>FEITA COM CARINHO</small></span>
+    </a>
+    <nav class="main-nav" aria-label="Navegação principal">
+      <a href="#cardapio">Cardápio</a>
+      <a href="#sobre">Nossa casa</a>
+    </nav>
+    <button class="cart-button" id="open-cart" type="button" aria-controls="cart-panel" aria-expanded="false">
+      <span aria-hidden="true">Sacola</span>
+      <span class="cart-count" id="cart-count">0</span>
+    </button>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow"><span class="eyebrow-dot"></span> A felicidade vem em fatias</span>
+        <h1>Uma pizza boa<br>muda <em>toda a noite.</em></h1>
+        <p>Massa feita com calma, ingredientes de verdade e sabores para dividir com quem você gosta.</p>
+        <a class="primary-button" href="#cardapio">Escolher minha pizza <span aria-hidden="true">↗</span></a>
+        <div class="hero-note"><span aria-hidden="true">✦</span> Preparada na hora, do nosso forno para a sua mesa.</div>
+      </div>
+      <div class="hero-photo">
+        <img src="images/products/margherita.jpg" alt="Pizza artesanal recém-assada com queijo e manjericão">
+        <div class="photo-badge"><span>feito</span><strong>na hora</strong><span>com carinho</span></div>
+        <div class="hero-caption"><span class="caption-line"></span> O sabor de estar junto</div>
+      </div>
+      <span class="hero-sparkle sparkle-one" aria-hidden="true">✳</span>
+      <span class="hero-sparkle sparkle-two" aria-hidden="true">✳</span>
+    </section>
+
+    <section class="menu-section" id="cardapio">
+      <div class="section-top">
+        <div>
+          <span class="eyebrow">Escolhas feitas com carinho</span>
+          <h2>O cardápio <em>da casa</em></h2>
+        </div>
+        <p>Do clássico que abraça àquela combinação nova que vira favorita.</p>
+      </div>
+
+      <div class="menu-controls">
+        <div class="category-list" id="category-list" aria-label="Filtrar por categoria"></div>
+        <label class="search-box">
+          <span aria-hidden="true">⌕</span>
+          <input id="product-search" type="search" placeholder="Buscar um sabor..." autocomplete="off">
+        </label>
+      </div>
+
+      <div class="product-grid" id="product-grid" aria-live="polite"></div>
+      <p class="empty-message" id="empty-message" hidden>Nenhum sabor encontrado. Tente outra busca.</p>
+    </section>
+
+    <section class="promise-section" id="sobre">
+      <div class="promise-photo">
+        <img src="images/products/vegetariana.jpg" alt="Pizza artesanal com ingredientes frescos">
+        <span class="promise-photo-label">Bons ingredientes fazem toda a diferença</span>
+      </div>
+      <div class="promise-copy">
+        <span class="eyebrow">Um pouquinho da nossa casa</span>
+        <h2>O melhor ingrediente<br>é <em>estar junto.</em></h2>
+        <p>A gente acredita que comida boa começa com cuidado. Por isso, cada pizza é preparada na hora, com ingredientes escolhidos para deixar qualquer encontro mais gostoso.</p>
+        <a href="#cardapio" class="text-link">Encontre seu próximo sabor <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <a class="brand footer-brand" href="#">
+      <span class="brand-mark" aria-hidden="true">B</span>
+      <span>Bella <em>Pizza</em><small>FEITA COM CARINHO</small></span>
+    </a>
+    <p>Feita na hora. Feita para compartilhar.</p>
+    <span class="footer-note">© <span id="current-year"></span> Bella Pizza · Fotos do Unsplash, exceto a <a href="https://commons.wikimedia.org/wiki/File:Sweet_pizza_(50870993271).jpg" target="_blank" rel="noreferrer">pizza doce de Amanda Coutinho (CC BY 2.0)</a></span>
+  </footer>
+
+  <div class="cart-backdrop" id="cart-backdrop" hidden></div>
+  <aside class="cart-panel" id="cart-panel" aria-labelledby="cart-title" aria-hidden="true" inert>
+    <div class="cart-header">
+      <div>
+        <span class="eyebrow">Quase na mesa</span>
+        <h2 id="cart-title">Sua sacola</h2>
+      </div>
+      <button class="icon-button" id="close-cart" type="button" aria-label="Fechar sacola">×</button>
+    </div>
+    <div class="cart-items" id="cart-items"></div>
+    <div class="cart-empty" id="cart-empty">
+      <span aria-hidden="true">♡</span>
+      <p>Sua sacola está esperando por um sabor.</p>
+      <button class="text-link" id="keep-shopping" type="button">Explorar o cardápio →</button>
+    </div>
+    <div class="cart-footer" id="cart-footer" hidden>
+      <div class="cart-total"><span>Total dos itens</span><strong id="cart-total">R$ 0,00</strong></div>
+      <p class="order-note">O pedido ainda não é enviado à loja. Copie o resumo para combinar a entrega diretamente com a pizzaria.</p>
+      <button class="primary-button checkout-button" id="copy-order" type="button">Copiar pedido <span aria-hidden="true">↗</span></button>
+      <p class="copy-feedback" id="copy-feedback" role="status" aria-live="polite"></p>
+    </div>
+  </aside>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

@@ -60,6 +60,8 @@ h1, h2 { font-family: Georgia, "Times New Roman", serif; line-height: 1.12; }
 .product-card:hover { box-shadow: var(--shadow); transform: translateY(-4px); }
 .product-art, .detail-art { display: grid; min-height: 190px; place-items: center; overflow: hidden; background: radial-gradient(circle at 50% 50%, #fff2d3, #f3dfbc 70%, #ead2aa); }
 .product-illustration { position: relative; display: block; width: 130px; aspect-ratio: 1; border: 9px solid #c77a37; border-radius: 50%; background: radial-gradient(circle at 28% 35%, #b9362c 0 6%, transparent 7%), radial-gradient(circle at 66% 32%, #b9362c 0 6%, transparent 7%), radial-gradient(circle at 62% 67%, #b9362c 0 6%, transparent 7%), radial-gradient(circle at 34% 70%, #b9362c 0 6%, transparent 7%), #eabf68; box-shadow: inset 0 0 0 7px #f8d98e; }
+.product-image { display: block; width: min(82%, 220px); height: 165px; object-fit: contain; }
+.detail-art .product-image { width: min(82%, 370px); height: min(56vh, 370px); }
 .product-illustration::before { position: absolute; inset: 12%; border: 3px dashed rgba(142,27,27,.27); border-radius: 50%; content: ""; }
 .product-card-body { padding: 19px; }
 .product-category { color: var(--tomato); font-size: .72rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }

@@ -104,12 +104,26 @@ def create_app(test_config: dict | None = None) -> Flask:
             categories[slug] = category
         db.session.flush()
         demo_products = [
-            ("Margherita", "tradicionais", "Molho de tomate, mozzarella fresca e manjericão.", "Tomate, mozzarella e manjericão", Decimal("39.90")),
-            ("Calabresa", "tradicionais", "Calabresa artesanal, cebola e mozzarella.", "Calabresa, cebola e mozzarella", Decimal("42.90")),
-            ("Quatro Queijos", "especiais", "Uma combinação cremosa de queijos selecionados.", "Mozzarella, provolone, gorgonzola e parmesão", Decimal("49.90")),
-            ("Portuguesa", "especiais", "Um clássico generoso e cheio de sabor.", "Presunto, ovo, cebola, ervilha e mozzarella", Decimal("47.90")),
+            ("Margherita", "margherita", "tradicionais", "Molho de tomate, mozzarella fresca e manjericão.", "Tomate, mozzarella e manjericão", "Grande", Decimal("39.90"), 8),
+            ("Calabresa", "calabresa", "tradicionais", "Calabresa artesanal, cebola e mozzarella.", "Calabresa, cebola e mozzarella", "Grande", Decimal("42.90"), 8),
+            ("Muçarela", "mucarela", "tradicionais", "Molho de tomate coberto com mozzarella derretida.", "Tomate, mozzarella e orégano", "Grande", Decimal("39.90"), 8),
+            ("Napolitana", "napolitana", "tradicionais", "Mozzarella, rodelas de tomate e parmesão.", "Tomate, mozzarella, parmesão e orégano", "Grande", Decimal("43.90"), 8),
+            ("Quatro Queijos", "quatro-queijos", "especiais", "Uma combinação cremosa de queijos selecionados.", "Mozzarella, provolone, gorgonzola e parmesão", "Grande", Decimal("49.90"), 8),
+            ("Portuguesa", "portuguesa", "especiais", "Um clássico generoso e cheio de sabor.", "Presunto, ovo, cebola, ervilha e mozzarella", "Grande", Decimal("47.90"), 8),
+            ("Frango com Catupiry", "frango-catupiry", "especiais", "Frango desfiado com catupiry cremoso.", "Frango, catupiry e mozzarella", "Grande", Decimal("48.90"), 8),
+            ("Bacon", "bacon", "especiais", "Bacon crocante com mozzarella e toque de orégano.", "Bacon, mozzarella e orégano", "Grande", Decimal("46.90"), 8),
+            ("Vegetariana", "vegetariana", "vegetarianas", "Legumes frescos e mozzarella sobre molho da casa.", "Abobrinha, champignon, tomate, azeitona e mozzarella", "Grande", Decimal("46.90"), 8),
+            ("Brócolis com Catupiry", "brocolis-catupiry", "vegetarianas", "Brócolis temperado com catupiry cremoso.", "Brócolis, catupiry e mozzarella", "Grande", Decimal("47.90"), 8),
+            ("Chocolate", "chocolate", "doces", "Chocolate ao leite derretido sobre massa artesanal.", "Chocolate ao leite e chocolate granulado", "Grande", Decimal("45.90"), 8),
+            ("Banana com Canela", "banana-canela", "doces", "Banana, açúcar e canela em uma combinação clássica.", "Banana, açúcar, canela e mozzarella", "Grande", Decimal("43.90"), 8),
+            ("Refrigerante Cola", "refrigerante-cola", "bebidas", "Refrigerante sabor cola, servido gelado.", "Refrigerante", "2 litros", Decimal("14.00"), 0),
+            ("Refrigerante Guaraná", "refrigerante-guarana", "bebidas", "Refrigerante sabor guaraná, servido gelado.", "Refrigerante", "2 litros", Decimal("13.00"), 0),
+            ("Refrigerante Laranja", "refrigerante-laranja", "bebidas", "Refrigerante sabor laranja, servido gelado.", "Refrigerante", "2 litros", Decimal("13.00"), 0),
+            ("Refrigerante Cola Lata", "cola-lata", "bebidas", "Lata de refrigerante sabor cola, servida gelada.", "Refrigerante", "350 ml", Decimal("6.00"), 0),
+            ("Água Mineral", "agua-mineral", "bebidas", "Água mineral sem gás.", "Água mineral", "500 ml", Decimal("4.00"), 0),
+            ("Suco de Laranja", "suco-laranja", "bebidas", "Suco de laranja pronto para beber.", "Suco de laranja", "1 litro", Decimal("12.00"), 0),
         ]
-        for name, slug, description, ingredients, price in demo_products:
+        for name, image_key, slug, description, ingredients, size_name, price, slices in demo_products:
             product = Product.query.filter_by(name=name).first()
             if product is None:
                 product = Product(
@@ -117,12 +131,16 @@ def create_app(test_config: dict | None = None) -> Flask:
                     category=categories[slug],
                     description=description,
                     ingredients=ingredients,
+                    image_url=f"sprite:{image_key}",
                     is_featured=name in {"Margherita", "Calabresa"},
                 )
                 db.session.add(product)
                 db.session.flush()
+            elif not product.image_url:
+                product.image_url = f"sprite:{image_key}"
+            if not ProductSize.query.filter_by(product_id=product.id, name=size_name).first():
                 db.session.add(ProductSize(
-                    product_id=product.id, name="Grande", price=price, slices=8
+                    product_id=product.id, name=size_name, price=price, slices=slices
                 ))
         addon = Addon.query.filter_by(name="Queijo extra").first()
         if addon is None:

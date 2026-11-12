@@ -1,8 +1,9 @@
 {% extends "base.html" %}
+{% from "catalog/_product_image.html" import render_product_image %}
 {% block title %}{{ product.name }} — {{ store.store_name if store else 'Bella Pizza' }}{% endblock %}
 {% block content %}
 <section class="section detail-layout">
-  <div class="detail-art"><span class="product-illustration"></span></div>
+  <div class="detail-art">{{ render_product_image(product) }}</div>
   <div class="detail-copy">
     <a class="text-link" href="{{ url_for('main.menu') }}">← Voltar ao cardápio</a>
     <div class="product-category">{{ product.category.name }}</div><h1>{{ product.name }}</h1><p class="lead">{{ product.description }}</p>

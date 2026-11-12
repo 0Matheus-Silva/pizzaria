@@ -1,0 +1,11 @@
+{% macro render_product_image(product) -%}
+  {% if product.image_url.startswith('sprite:') %}
+    <svg class="product-image" viewBox="0 0 240 180" role="img" aria-label="{{ product.name }}">
+      <use href="{{ url_for('static', filename='images/catalog.svg') }}#{{ product.image_url[7:] }}"></use>
+    </svg>
+  {% elif product.image_url %}
+    <img class="product-image" src="{{ product.image_url }}" alt="{{ product.name }}" loading="lazy">
+  {% else %}
+    <span class="product-illustration"></span>
+  {% endif %}
+{%- endmacro %}

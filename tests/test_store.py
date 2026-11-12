@@ -30,6 +30,40 @@ def test_home_and_menu_render(client, app):
     assert b"Margherita" in client.get("/cardapio").data
 
 
+def test_seed_demo_adds_pizzas_and_drinks_idempotently(app):
+    from app.models import Category
+
+    runner = app.test_cli_runner()
+    first_run = runner.invoke(args=["seed-demo"])
+    assert first_run.exit_code == 0, first_run.output
+
+    with app.app_context():
+        assert Product.query.filter_by(name="Frango com Catupiry").one()
+        assert Product.query.filter_by(name="Chocolate").one()
+        drink = Product.query.filter_by(name="Refrigerante Cola").one()
+        assert drink.category.slug == "bebidas"
+        assert drink.sizes[0].name == "2 litros"
+        assert drink.sizes[0].slices == 0
+        assert Product.query.filter(Product.image_url == "").count() == 0
+        featured = Product.query.filter_by(name="Frango com Catupiry").one()
+        featured_id = featured.id
+        initial_product_count = Product.query.count()
+        initial_size_count = ProductSize.query.count()
+        assert Category.query.filter_by(slug="doces").one()
+
+    client = app.test_client()
+    detail = client.get(f"/produto/{featured_id}")
+    assert detail.status_code == 200
+    assert b"/static/images/catalog.svg#frango-catupiry" in detail.data
+    assert client.get("/static/images/catalog.svg").status_code == 200
+
+    second_run = runner.invoke(args=["seed-demo"])
+    assert second_run.exit_code == 0, second_run.output
+    with app.app_context():
+        assert Product.query.count() == initial_product_count
+        assert ProductSize.query.count() == initial_size_count
+
+
 def test_inactive_product_cannot_be_priced(app):
     with app.app_context():
         product, size = make_product()

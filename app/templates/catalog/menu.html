@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% from "catalog/_product_image.html" import render_product_image %}
 {% block title %}Cardápio — {{ store.store_name if store else 'Bella Pizza' }}{% endblock %}
 {% block content %}
 <section class="page-intro"><span class="eyebrow">Feita na hora, do seu jeito</span><h1>Nosso cardápio</h1><p>Escolha um sabor, personalize e deixe o restante com a gente.</p></section>
@@ -11,7 +12,7 @@
   <div class="product-grid">
   {% for product in products %}
     <article class="product-card">
-      <a class="product-art" href="{{ url_for('main.product_detail', product_id=product.id) }}"><span class="product-illustration"></span></a>
+      <a class="product-art" href="{{ url_for('main.product_detail', product_id=product.id) }}">{{ render_product_image(product) }}</a>
       <div class="product-card-body"><div class="product-category">{{ product.category.name }}</div><h2><a href="{{ url_for('main.product_detail', product_id=product.id) }}">{{ product.name }}</a></h2><p>{{ product.description|truncate(120) }}</p>
         {% if product.sizes %}<div class="product-bottom"><span>A partir de {{ money(product.sizes|map(attribute='price')|min) }}</span><a class="button button-small" href="{{ url_for('main.product_detail', product_id=product.id) }}">Ver detalhes</a></div>{% endif %}
       </div>

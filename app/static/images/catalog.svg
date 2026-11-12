@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+  <symbol id="pizza-base" viewBox="0 0 240 180">
+    <circle cx="120" cy="96" r="67" fill="#d2a05d"/>
+    <circle cx="120" cy="89" r="65" fill="#b96b35"/>
+    <circle cx="120" cy="89" r="57" fill="#f3c66e"/>
+    <circle cx="120" cy="89" r="49" fill="#f8e6ab"/>
+  </symbol>
+  <symbol id="margherita" viewBox="0 0 240 180">
+    <use href="#pizza-base"/>
+    <g fill="#c9342c"><circle cx="99" cy="66" r="7"/><circle cx="139" cy="66" r="7"/><circle cx="119" cy="93" r="7"/><circle cx="93" cy="111" r="7"/><circle cx="144" cy="112" r="7"/></g>
+    <g fill="#397344"><path d="M108 74q12-15 17-2-9 10-17 2m25 21q13-14 17 0-10 9-17 0m-48 5q13-14 17 0-10 9-17 0m29 26q12-14 17 0-10 9-17 0"/></g>
+  </symbol>
+  <symbol id="calabresa" viewBox="0 0 240 180">
+    <use href="#pizza-base"/>
+    <g fill="#a6342b" stroke="#dc7860" stroke-width="2"><circle cx="97" cy="66" r="9"/><circle cx="137" cy="67" r="9"/><circle cx="117" cy="91" r="9"/><circle cx="92" cy="110" r="9"/><circle cx="143" cy="111" r="9"/><circle cx="119" cy="125" r="8"/></g>
+    <g fill="none" stroke="#fff1d2" stroke-width="3"><path d="M105 81q12 8 20 0m13 26q12 8 20 0m-71 2q12 8 20 0"/></g>
+  </symbol>
+  <symbol id="mucarela" viewBox="0 0 240 180">
+    <use href="#pizza-base"/>
+    <g fill="#fff8d9" stroke="#e5c986" stroke-width="2"><circle cx="98" cy="67" r="12"/><circle cx="139" cy="67" r="12"/><circle cx="118" cy="94" r="13"/><circle cx="94" cy="112" r="12"/><circle cx="143" cy="111" r="12"/></g>
+    <g fill="#bd382f"><circle cx="98" cy="67" r="5"/><circle cx="139" cy="67" r="5"/><circle cx="118" cy="94" r="5"/><circle cx="94" cy="112" r="5"/><circle cx="143" cy="111" r="5"/></g>
+  </symbol>
+  <symbol id="napolitana" viewBox="0 0 240 180">
+    <use href="#pizza-base"/>
+    <g fill="#c7352b"><path d="M94 61a12 12 0 1 0 24 0 12 12 0 0 0-24 0m35 18a12 12 0 1 0 24 0 12 12 0 0 0-24 0m-42 32a12 12 0 1 0 24 0 12 12 0 0 0-24 0m45 13a12 12 0 1 0 24 0 12 12 0 0 0-24 0"/></g>
+    <g fill="#f4d57c"><circle cx="124" cy="112" r="4"/><circle cx="111" cy="77" r="4"/><circle cx="132" cy="57" r="4"/><circle cx="105" cy="128" r="4"/></g>
+  </symbol>
+  <symbol id="quatro-queijos" viewBox="0 0 240 180">
+    <use href="#pizza-base"/>
+    <g stroke="#fff5d5" stroke-width="2"><path fill="#f3d982" d="m93 64 13-7 9 10-5 12-15-2z"/><path fill="#d7a45e" d="m129 59 13 3 6 13-9 9-12-8z"/><path fill="#bba7c4" d="m105 91 14-7 10 9-4 14-15 2z"/><path fill="#f1dfab" d="m137 97 14-3 8 12-7 13-14-5z"/><path fill="#e9c66c" d="m91 111 12-7 10 9-4 14-14 1z"/></g>
+  </symbol>
+  <symbol id="portuguesa" viewBox="0 0 240 180">
+    <use href="#pizza-base"/>
+    <g fill="#a93f34"><path d="m94 64 20-4 4 12-19 5z"/><path d="m132 88 21-4 4 12-20 5z"/><path d="m91 105 20-4 4 12-18 6z"/><path d="m121 119 20-4 4 12-19 5z"/></g>
+    <g fill="#55904a"><circle cx="121" cy="65" r="4"/><circle cx="130" cy="68" r="4"/><circle cx="110" cy="92" r="4"/><circle cx="120" cy="96" r="4"/><circle cx="145" cy="113" r="4"/></g>
+    <g fill="#fff2ce"><circle cx="106" cy="88" r="8"/><circle cx="140" cy="65" r="8"/></g>
+  </symbol>
+  <symbol id="frango-catupiry" viewBox="0 0 240 180">
+    <use href="#pizza-base"/>
+    <g fill="#c58b43"><path d="m92 65 21-7 5 7-20 9zm38-4 19 6-5 8-20-6zm-34 40 22-6 4 8-22 8zm39 3 22-3 3 8-21 6zm-18 20 20-5 4 8-20 7z"/></g>
+    <g fill="#fffdf0" stroke="#e5d7b4" stroke-width="2"><circle cx="108" cy="85" r="8"/><circle cx="139" cy="85" r="8"/><circle cx="119" cy="108" r="8"/></g>
+  </symbol>
+  <symbol id="bacon" viewBox="0 0 240 180">
+    <use href="#pizza-base"/>
+    <g fill="none" stroke="#843e2e" stroke-width="8" stroke-linecap="round"><path d="m95 63 18 10m18-9 18 10m-47 20 18 10m21-10 18 10m-53 20 18 10m23-12 15 9"/></g>
+    <g fill="#edb8a0"><circle cx="106" cy="69" r="3"/><circle cx="141" cy="69" r="3"/><circle cx="106" cy="96" r="3"/><circle cx="143" cy="98" r="3"/><circle cx="112" cy="124" r="3"/></g>
+  </symbol>
+  <symbol id="vegetariana" viewBox="0 0 240 180">
+    <use href="#pizza-base"/>
+    <g fill="#57934e"><circle cx="96" cy="69" r="8"/><circle cx="140" cy="64" r="8"/><circle cx="112" cy="94" r="8"/><circle cx="146" cy="107" r="8"/><circle cx="96" cy="112" r="8"/></g>
+    <g fill="#be4639"><circle cx="119" cy="66" r="6"/><circle cx="128" cy="118" r="6"/><circle cx="130" cy="89" r="6"/></g>
+    <g fill="#594744"><circle cx="101" cy="92" r="5"/><circle cx="136" cy="121" r="5"/></g>
+  </symbol>
+  <symbol id="brocolis-catupiry" viewBox="0 0 240 180">
+    <use href="#pizza-base"/>
+    <g fill="#45844b"><circle cx="99" cy="67" r="8"/><circle cx="108" cy="63" r="7"/><circle cx="104" cy="73" r="7"/><circle cx="140" cy="94" r="8"/><circle cx="148" cy="90" r="7"/><circle cx="145" cy="101" r="7"/><circle cx="104" cy="108" r="8"/><circle cx="112" cy="104" r="7"/><circle cx="110" cy="114" r="7"/></g>
+    <g fill="#fffdf0" stroke="#e5d7b4" stroke-width="2"><circle cx="126" cy="69" r="8"/><circle cx="126" cy="100" r="8"/><circle cx="132" cy="124" r="8"/></g>
+  </symbol>
+  <symbol id="chocolate" viewBox="0 0 240 180">
+    <circle cx="120" cy="96" r="67" fill="#d2a05d"/><circle cx="120" cy="89" r="65" fill="#b96b35"/>
+    <circle cx="120" cy="89" r="57" fill="#e5b857"/><circle cx="120" cy="89" r="49" fill="#70402f"/>
+    <path d="M83 74q15-16 29 0t29 0m-57 28q15-16 29 0t29 0m-34 20q15-16 29 0t29 0" fill="none" stroke="#f4d69a" stroke-width="6" stroke-linecap="round"/>
+    <g fill="#f6e5c1"><circle cx="101" cy="66" r="3"/><circle cx="142" cy="93" r="3"/><circle cx="108" cy="112" r="3"/></g>
+  </symbol>
+  <symbol id="banana-canela" viewBox="0 0 240 180">
+    <circle cx="120" cy="96" r="67" fill="#d2a05d"/><circle cx="120" cy="89" r="65" fill="#b96b35"/>
+    <circle cx="120" cy="89" r="57" fill="#e9bd62"/><circle cx="120" cy="89" r="49" fill="#f4dfaa"/>
+    <g fill="#f4cf54" stroke="#d3a735" stroke-width="2"><path d="M94 62q14 4 13 20-2 7-9 5-11-8-4-25"/><path d="M129 62q14 4 13 20-2 7-9 5-11-8-4-25"/><path d="M111 91q14 4 13 20-2 7-9 5-11-8-4-25"/><path d="M143 101q14 4 13 20-2 7-9 5-11-8-4-25"/><path d="M90 105q14 4 13 20-2 7-9 5-11-8-4-25"/></g>
+    <g stroke="#9c6534" stroke-width="2"><path d="m90 79 4-2m34-1 4-2m-18 36 4-2m30 7 4-2"/></g>
+  </symbol>
+  <symbol id="refrigerante-cola" viewBox="0 0 240 180">
+    <path d="M105 26h30v15l10 12v83q0 12-12 12h-26q-12 0-12-12V53l10-12z" fill="#c9322c" stroke="#8c2625" stroke-width="4"/>
+    <path d="M105 26h30v10h-30z" fill="#e7e3dc" stroke="#8c2625" stroke-width="3"/>
+    <path d="M99 77h42v35H99z" fill="#fff3d4"/><path d="M105 89h30v11h-30z" fill="#9c3428"/>
+    <path d="M103 57h7v75h-7z" fill="#f27f65" opacity=".8"/>
+  </symbol>
+  <symbol id="refrigerante-guarana" viewBox="0 0 240 180">
+    <path d="M105 26h30v15l10 12v83q0 12-12 12h-26q-12 0-12-12V53l10-12z" fill="#369349" stroke="#205d38" stroke-width="4"/>
+    <path d="M105 26h30v10h-30z" fill="#e7e3dc" stroke="#205d38" stroke-width="3"/>
+    <path d="M99 77h42v35H99z" fill="#fff3d4"/><circle cx="120" cy="94" r="11" fill="#398a48"/><circle cx="120" cy="94" r="5" fill="#e5453c"/>
+    <path d="M103 57h7v75h-7z" fill="#84c77b" opacity=".8"/>
+  </symbol>
+  <symbol id="refrigerante-laranja" viewBox="0 0 240 180">
+    <path d="M105 26h30v15l10 12v83q0 12-12 12h-26q-12 0-12-12V53l10-12z" fill="#ed8b26" stroke="#a7541e" stroke-width="4"/>
+    <path d="M105 26h30v10h-30z" fill="#e7e3dc" stroke="#a7541e" stroke-width="3"/>
+    <path d="M99 77h42v35H99z" fill="#fff3d4"/><circle cx="120" cy="94" r="12" fill="#f19b25"/><circle cx="120" cy="94" r="7" fill="#ffd765"/>
+    <path d="M103 57h7v75h-7z" fill="#ffc16b" opacity=".8"/>
+  </symbol>
+  <symbol id="cola-lata" viewBox="0 0 240 180">
+    <path d="M91 46h58l6 10v75q0 8-8 8H93q-8 0-8-8V56z" fill="#c9322c" stroke="#8c2625" stroke-width="4"/>
+    <path d="M91 48h58v9H91z" fill="#e8e4de" stroke="#8c2625" stroke-width="3"/>
+    <path d="M87 80h66v32H87z" fill="#fff3d4"/><path d="M100 90h40v12h-40z" fill="#9c3428"/>
+    <path d="M97 61h7v68h-7z" fill="#f27f65" opacity=".8"/>
+  </symbol>
+  <symbol id="agua-mineral" viewBox="0 0 240 180">
+    <path d="M108 25h24v13l8 13v86q0 11-11 11h-18q-11 0-11-11V51l8-13z" fill="#a9d8e8" stroke="#5d9bb2" stroke-width="4"/>
+    <path d="M108 25h24v9h-24z" fill="#e8e4de" stroke="#5d9bb2" stroke-width="3"/>
+    <path d="M101 78h38v33h-38z" fill="#f7fbf9"/><path d="M108 88h24v4h-24zm0 9h24v4h-24z" fill="#73b9d1"/>
+    <path d="M106 56h6v76h-6z" fill="#e6fbff" opacity=".9"/>
+  </symbol>
+  <symbol id="suco-laranja" viewBox="0 0 240 180">
+    <path d="M105 34h30l5 13 14 12v76q0 9-10 9h-48q-10 0-10-9V59l14-12z" fill="#f19a2c" stroke="#b96324" stroke-width="4"/>
+    <path d="M105 34h30v9h-30z" fill="#eee7da" stroke="#b96324" stroke-width="3"/>
+    <path d="M91 79h58v33H91z" fill="#fff2d6"/><circle cx="120" cy="96" r="12" fill="#f3a12f"/><circle cx="120" cy="96" r="7" fill="#ffd66b"/>
+    <path d="M98 61h7v68h-7z" fill="#ffd071" opacity=".8"/>
+  </symbol>
+</svg>
